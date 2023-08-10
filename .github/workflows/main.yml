@@ -17,7 +17,6 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag marketing_app:latest
       
-      # Set the image ID as an environment variable
       env:
         IMAGE_ID: ${{ steps.build.outputs.image-id }}
     
@@ -28,4 +27,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     
     - name: Push Docker image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/marketing_app:latest
+      run: docker push marketing_app:latest

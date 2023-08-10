@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" autocomplete="off" onsubmit="return confirm('Are you sure you want to save the changes?')">
+  {% csrf_token %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mt-5">
+          <div class="card-header text-bg-dark">
+            <h3 class="text-center">Edit Details</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="client_name" name='client_name' value="{{ edit_detail.client_name }}">
+                  <label for="client_name">Client Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="contact_number" name='contact_number' value="{{ edit_detail.contact_number }}">
+                  <label for="contact_number">Contact Number</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="vendor_name" name='vendor_name' value="{{ edit_detail.vendor_name }}">
+                  <label for="vendor_name">Vendor Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="vendor_company" name='vendor_company' value="{{ edit_detail.vendor_company }}">
+                  <label for="vendor_company">Vendor Company</label>
+                </div>
+              </div>
+              <div class="col-md-3 mt-3">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="rate" name='rate' value="{{ edit_detail.rate }}">
+                  <label for="rate">Rate</label>
+                </div>
+              </div>
+              <div class="col-md-3 mt-3">
+                <div class="form-floating">
+                  <select class="form-control" id="currency" name="currency">
+                    <!-- populate the dropdown based on the context's value -->
+                    <option value="USD" {% if edit_detail.currency == "USD" %}selected{% endif %}>USD</option>
+                    <option value="EUR" {% if edit_detail.currency == "EUR" %}selected{% endif %}>EUR</option>
+                    <option value="GBP" {% if edit_detail.currency == "GBP" %}selected{% endif %}>GBP</option>
+                  </select>
+                  <label for="currency">Currency</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <select class="form-control" id="contract_type" name="contract_type">
+                    <!-- populate the dropdown based on the context's value -->
+                    <option value="Remote" {% if edit_detail.contract_type == "Remote" %}selected{% endif %}>Remote</option>
+                    <option value="On Site" {% if edit_detail.contract_type == "On Site" %}selected{% endif %}>On Site</option>
+                    <option value="Hybrid" {% if edit_detail.contract_type == "Hybrid" %}selected{% endif %}>Hybrid</option>
+                  </select>
+                  <label for="contract_type">Contract Type</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <select class="form-control" id="status" name="status">
+                    <!-- populate the dropdown based on the context's value -->
+                    <option value="On Board" {% if edit_detail.status == "On Board" %}selected{% endif %}>On Board</option>
+                    <option value="In Progress" {% if edit_detail.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                    <option value="No Response" {% if edit_detail.status == "No Response" %}selected{% endif %}>No Response</option>
+                    <option value="Closed" {% if edit_detail.status == "Closed" %}selected{% endif %}>Closed</option>
+                  </select>
+                  <label for="status">Status</label>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="comments" name='comments' value="{{ edit_detail.comments }}">
+                  <label for="comments">Comments</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="text-center mx-auto">
+              <input class="btn btn-primary me-5" type="submit" value="Save Changes" >
+              <a href="{% url 'details' %}" class="btn btn-primary ms-3" role="button" onclick="confirmCancel()">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<script>
+    function confirmCancel() {
+    
+    const confirmation = confirm('Are you sure you want to cancel?');
+
+    if (confirmation) {
+      window.location.href = "{% url 'details' %}";
+    }
+
+    else {
+      event.preventDefault();
+    }
+  }
+</script>
+{% endblock %}

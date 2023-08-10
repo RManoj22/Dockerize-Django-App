@@ -1,1 +1,1 @@
-# Dockerize-Django-App
+# Marketing_App

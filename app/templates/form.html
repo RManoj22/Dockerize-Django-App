@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" autocomplete="off" id="form">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-5">
+                    <div class="card-header text-bg-dark">
+                        <h3 class="text-center">Add Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.client_name }}
+                                    <label>Client Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.contact_number }}
+                                    <label>Contact Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.vendor_name }}
+                                    <label>Vendor Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.vendor_company }}
+                                    <label>Vendor Company</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <div class="form-floating">
+                                    {{ form.rate }}
+                                    <label>Rate</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <div class="form-floating">
+                                    {{ form.currency }}
+                                    <label>Currency</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.contract_type }}
+                                  <label>Contract Type</label>
+                                </div>
+                            </div>                                                     
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.status }}
+                                    <label>Status</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="form-floating">
+                                    {{ form.comments  }}
+                                    <label>Comments</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <!-- dispaly error of form vaildation -->
+                            {{form.errors}}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-center">
+                            <input class="btn btn-primary me-4" type="submit" value="Submit">
+                            <a href="{% url 'details'%}" class="btn btn-primary me-4" role="button" onclick="confirmCancel()">Cancel</a>
+                            <button class="btn btn-danger" type="button" onclick="confirmReset()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+  function confirmReset() {
+    
+    const confirmation = confirm('Are you sure you want to reset the form?');
+
+    if (confirmation) {
+      resetForm();
+    }
+  }
+
+  function resetForm() {
+    document.getElementById("form").reset();
+  }
+
+  function confirmCancel() {
+    const inputFields = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+    let hasNonEmptyField = false;
+
+    inputFields.forEach((field) => {
+        if (field.value.trim() !== '') {
+            hasNonEmptyField = true;
+            return;
+        }
+    });
+
+    if (hasNonEmptyField) {
+        const confirmation = confirm('Are you sure you want to cancel?');
+
+        if (confirmation) {
+            window.location.href = "{% url 'details' %}";
+        } else {
+            event.preventDefault();
+        }
+    } else {
+        window.location.href = "{% url 'details' %}";
+    }
+}
+
+</script>
+{% endblock %}

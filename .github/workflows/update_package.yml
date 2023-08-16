@@ -1,5 +1,5 @@
 # Create and publish a Docker image
-name: Create and publish a Docker image
+name: Create and publish a Docker Package
 
 # Trigger the workflow when the CodeQL workflow completes
 on:

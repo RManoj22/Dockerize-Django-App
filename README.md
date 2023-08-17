@@ -44,6 +44,8 @@ You can trigger a workflow based on multiple types of events and branches. To sp
 
 In this example, the workflow will trigger on pushes to the main and develop branches, as well as when pull requests are opened or synchronized.
 
+Learn more about [Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows).
+
 ## Automated Release Processes
 
 Simplify versioning, changelog generation, and release artifact creation. GitHub Actions can automate the process of creating release builds, generating changelogs, and packaging artifacts, making the release process more efficient and consistent. To automate release processes:
@@ -78,6 +80,8 @@ If a job within a workflow fails, you can re-run that specific job to troublesho
 3. Find the workflow run that contains the failed job.
 4. Click on the failed job's name.
 5. In the job details, click the **Re-run** button to execute the job again.
+
+Learn more about [Re-running workflows and jobs](https://docs.github.com/en/actions/managing-workflow-runs/re-running-workflows-and-jobs)
 
 ## Using Multiple Workflow Files
 
@@ -165,7 +169,7 @@ You can create a Personal Access Token in GitHub by following these steps:
 	docker run -it ghcr.io/USERNAME/Packagename:{tagname}
 
 
-### Use GitHub Actions Workflow to Build and Push Image
+## Use GitHub Actions Workflow to Build and Push Image
 
 You can automate the process of building and pushing Docker images to GHCR using GitHub Actions by storing Personal Access Token (PAT) as Secret to authenticate. Here's how you can 
 
@@ -190,24 +194,24 @@ GitHub allows you to store sensitive information, such as access tokens, API key
 
 5. **Enter Secret Details:**
    - Name: Provide a descriptive name for your secret (e.g., `TOKEN`).
-   - Value: Enter the actual value of your secret (e.g., your TOKEN).
+   - Value: Enter the actual value of your secret.
 
 6. **Add Secret:**
    - Click the **Add secret** button to save the secret.
 
 7. **Access Secrets in Workflows:**
-   - You can access these secrets within your GitHub Actions workflows using the `secrets` context. For example:
-
-	${{ secrets.GITHUB_TOKEN }}
+   - You can access these secrets within your GitHub Actions workflows using the secrets context. 
+   For example:
+            `${{ secrets.GITHUB_TOKEN }}`
 
 
 ### Create a workflow for that:
 
 1. Go to your repository on GitHub.
 2. Click on the **Actions** tab.
-3. Choose a workflow template or create a new workflow file.
+3. Choose a Predefined workflow template or create a new workflow file.
 
-Learn more about how to work with the Container Registry in the [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
+Learn more about [Publishing Docker images and Packages](https://docs.github.com/en/actions/publishing-packages/publishing-docker-images)
 
 
 # GitHub Security
@@ -246,6 +250,8 @@ GitHub also provides predefined templates for code scanning that cater to specif
 
 With either the predefined CodeQL analysis or a selected template enabled, GitHub's code scanning will focus on the vulnerabilities and issues relevant to your chosen programming environment, providing you with more accurate and actionable results.
 
+Learn more about [Code scanning using Third-Party tools](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-advanced-setup-for-code-scanning#configuring-code-scanning-using-third-party-actions)
+
 ## Dependency Insights
 
 Monitor and address known vulnerabilities in your project's dependencies. GitHub's dependency insights provide an overview of your project's dependencies and their associated security vulnerabilities, helping you stay informed and take action to update or patch vulnerable packages. To enable Dependency Insights:
@@ -262,6 +268,8 @@ Prevent accidental exposure of sensitive information in your codebase. GitHub au
 2. Click on the **Settings** tab.
 3. Navigate to **Secrets** in the left sidebar.
 4. Under **Secret scanning**, select **Enable secret scanning**.
+
+Learn more about [Secret Scanning](https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning)
 
 ## Vulnerability Alerts
 

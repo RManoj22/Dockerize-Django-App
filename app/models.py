@@ -19,8 +19,9 @@ class MyTable(models.Model):
     # The `contact_number_validator` is a regular expression validator that is used to validate the
     # `contact_number` field in the `MyTable` model.
     contact_number_validator = RegexValidator(
-        regex=r'^\+?1?\d{9,15}$', 
-        message="Contact number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+        regex=r'^\+?1?\d{9,15}$',
+        message="Contact number must be entered in the format: '+999999999'."
+                " Up to 15 digits allowed.")
     contact_number = models.CharField(
         validators=[contact_number_validator], max_length=15)
     client_name = models.CharField(max_length=20)

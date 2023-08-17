@@ -1,6 +1,12 @@
+"""
+    This module contains various functions for user authentication, form
+    handling, database operations, and exporting data to an Excel file.
+    
+"""
+
 import datetime
 import xlwt
-from .filters import FormFilter
+
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -8,6 +14,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
 from .forms import MyTableForm, SignUpForm, LoginForm
 from .models import MyTable
+from .filters import FormFilter
 
 def signup(request):
     """
@@ -27,7 +34,7 @@ def signup(request):
     hide_signin = False
     # The line `if request.user.is_authenticated:` is checking if the user making the request is
     # authenticated or logged in. If the user is authenticated, it means they have provided valid
-    # credentials and are logged in. In this case, 
+    # credentials and are logged in. In this case,
     # the code redirects the user to the 'details' page.
     # If the user is not authenticated, it means they are not logged in, and the code continues to
     # execute the rest of the function.
@@ -55,8 +62,8 @@ def signin(request):
 
     :param request: The request object represents the HTTP request 
     that the user made to access the
-    view. It contains information about the user, the requested URL, and any data that was sent with the
-    request
+    view. It contains information about the user, 
+    the requested URL, and any data that was sent with the request
     :return: a rendered HTML template called 'sign_in.html' along with 
     a dictionary containing the form and a boolean variable 'hide_signin'.
     """
@@ -85,8 +92,8 @@ def signout(request):
     The function signs out the user and redirects them to the sign-in page.
     
     :param request: The request object represents the current HTTP request. It contains information
-    about the request, such as the user making the request, the HTTP method used, and any data sent with
-    the request
+    about the request, such as the user making the request, 
+    the HTTP method used, and any data sent with the request
     :return: a redirect to the 'signin' page.
     """
     logout(request)
@@ -119,12 +126,12 @@ def details(request):
             # The line `details = MyTable.objects.filter(user=request.user)` is filtering the
             # `MyTable` objects based on the `user` field. It retrieves all the objects from the
             # `MyTable` model where the `user` field matches the currently logged-in user
-            # (`request.user`). This ensures that only the details 
+            # (`request.user`). This ensures that only the details
             # belonging to the logged-in user are
             # retrieved and displayed.
             all_details = MyTable.objects.filter(user=request.user)
-        # The line `filter = FormFilter(request.GET, queryset=details)` 
-        # is creating an instance of the `FormFilter` class and 
+        # The line `filter = FormFilter(request.GET, queryset=details)`
+        # is creating an instance of the `FormFilter` class and
         # initializing it with the `request.GET` data and the `details` queryset.
         filtered = FormFilter(request.GET, queryset=all_details)
         filtered_details = filtered.qs
@@ -136,13 +143,17 @@ def details(request):
 @login_required(login_url='signin')
 def addnew(request):
     """
-    The `addnew` function is a view function in Django that handles the submission of a form, saves the
+    The `addnew` function is a view function in Django that handles 
+    the submission of a form, saves the
     form data to the database, and redirects the user to a details page.
     
-    :param request: The `request` parameter is an object that represents the HTTP request made by the
-    client. It contains information such as the request method (GET, POST, etc.), headers, user session,
+    :param request: The `request` parameter is an object that 
+    represents the HTTP request made by the
+    client. It contains information such as the request method 
+    (GET, POST, etc.), headers, user session,
     and any data sent with the request
-    :return: The code is returning a rendered HTML template called 'form.html' with the form object
+    :return: The code is returning a rendered HTML template called 
+    'form.html' with the form object
     passed as a context variable.
     """
     form = MyTableForm()
@@ -162,15 +173,20 @@ def addnew(request):
 @login_required(login_url='signin')
 def edit(request, id):
     """
-    The `edit` function handles the editing of a record in the `MyTable` model, checking permissions and
+    The `edit` function handles the editing of a record in 
+    the `MyTable` model, checking permissions and
     validating the form data.
     
-    :param request: The `request` parameter is an object that represents the HTTP request made by the
-    client. It contains information such as the user making the request, the method used (GET, POST,
+    :param request: The `request` parameter is an object 
+    that represents the HTTP request made by the
+    client. It contains information such as the user 
+    making the request, the method used (GET, POST,
     etc.), and any data sent with the request
-    :param id: The `id` parameter is the unique identifier of the record that needs to be edited. It is
+    :param id: The `id` parameter is the unique identifier of 
+    the record that needs to be edited. It is
     used to retrieve the specific record from the `MyTable` model
-    :return: The code is returning different HTTP responses based on certain conditions.
+    :return: The code is returning different HTTP responses 
+    based on certain conditions.
     """
     try:
         edit_detail = MyTable.objects.get(id=id)
@@ -185,7 +201,7 @@ def edit(request, id):
                 return redirect('details')
         else:
             form = MyTableForm(instance=edit_detail)
-        return render(request, 'edit.html', {'edit_detail': edit_detail, 
+        return render(request, 'edit.html', {'edit_detail': edit_detail,
                                              'contract_type': contract_type, 
                                              'form': form})
     except MyTable.DoesNotExist:
@@ -197,17 +213,24 @@ def edit(request, id):
 @login_required(login_url='signin')
 def delete(request, id):
     """
-    The function deletes a record from a table if the user has the necessary permissions, otherwise it
+    The function deletes a record from a table if the user 
+    has the necessary permissions, otherwise it
     returns an appropriate error message.
     
-    :param request: The `request` parameter is an object that represents the HTTP request made by the
-    client. It contains information such as the user making the request, the HTTP method used (e.g.,
+    :param request: The `request` parameter is an object 
+    that represents the HTTP request made by the
+    client. It contains information such as the user 
+    making the request, the HTTP method used (e.g.,
     GET, POST), and any data sent with the request
-    :param id: The `id` parameter is the unique identifier of the record that needs to be deleted from
+    :param id: The `id` parameter is the unique identifier 
+    of the record that needs to be deleted from
     the `MyTable` model
-    :return: an HTTP response. If the user has permission to delete the record, it will redirect them to
-    the 'details' page. If the record does not exist, it will return an HTTP response indicating that
-    the record was not found. If any other exception occurs, it will return an HTTP response indicating
+    :return: an HTTP response. If the user has permission 
+    to delete the record, it will redirect them to
+    the 'details' page. If the record does not exist, 
+    it will return an HTTP response indicating that
+    the record was not found. If any other exception occurs, 
+    it will return an HTTP response indicating
     that an error occurred, along with the error message.
     """
     try:
@@ -245,16 +268,28 @@ def export_excel(request):
     font_style.font.bold = True
 
     if request.user.is_superuser:
-        columns = ['Client Name', 'Entry Date', 'Modified At', 'Contact Number', 'Vendor Name',
-                   'Vendor Company', 'Rate', 'Currency', 'Contract Type', 'Status', 'Comments', 'User']
+        columns = ['Client Name', 'Entry Date', 'Modified At', 
+                   'Contact Number', 'Vendor Name','Vendor Company', 
+                   'Rate', 'Currency', 'Contract Type', 'Status', 
+                   'Comments', 'User']
 
         for col_num in range(len(columns)):
             ws.write(rownum, col_num, columns[col_num], font_style)
 
         font_style = xlwt.XFStyle()
 
-        rows = MyTable.objects.select_related('user').values_list('client_name', 'date', 'modified_at', 'contact_number',
-                                                                  'vendor_name', 'vendor_company', 'rate', 'currency', 'contract_type', 'status', 'comments', 'user__username')
+        rows = MyTable.objects.select_related('user').values_list('client_name', 
+                                                                  'date', 
+                                                                  'modified_at', 
+                                                                  'contact_number',
+                                                                  'vendor_name', 
+                                                                  'vendor_company', 
+                                                                  'rate', 
+                                                                  'currency', 
+                                                                  'contract_type', 
+                                                                  'status', 
+                                                                  'comments', 
+                                                                  'user__username')
 
         for row in rows:
             rownum += 1
@@ -271,8 +306,17 @@ def export_excel(request):
 
         font_style = xlwt.XFStyle()
 
-        rows = MyTable.objects.filter(user=request.user).values_list('client_name', 'date', 'modified_at', 'contact_number',
-                                                                     'vendor_name', 'vendor_company', 'rate', 'currency', 'contract_type', 'status', 'comments')
+        rows = MyTable.objects.filter(user=request.user).values_list('client_name', 
+                                                                     'date', 
+                                                                     'modified_at', 
+                                                                     'contact_number',
+                                                                     'vendor_name', 
+                                                                     'vendor_company', 
+                                                                     'rate', 
+                                                                     'currency', 
+                                                                     'contract_type', 
+                                                                     'status', 
+                                                                     'comments')
 
         for row in rows:
             rownum += 1

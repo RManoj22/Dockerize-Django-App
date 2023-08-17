@@ -22,6 +22,9 @@ class SignUpForm(UserCreationForm):
     The class `SignUpForm` is a subclass of `UserCreationForm` for creating user sign up forms.
     """
     class Meta:
+        """
+        The above code snippet defines a class named "Meta".
+        """
         model = User
         fields = ['username', 'password1', 'password2']
         widgets = {
@@ -34,21 +37,35 @@ class MyTableForm(forms.ModelForm):
     The class MyTableForm is a subclass of forms.ModelForm in Python.
     """
     class Meta:
+        """
+        The code snippet defines a class named "Meta".
+        """
         model = MyTable
         fields = ['client_name', 'contact_number', 'vendor_name', 'vendor_company',
                   'rate', 'currency', 'contract_type', 'status', 'comments']
         exclude = ['user']
         widgets = {
-            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Client Name'}),
-            'contact_number': forms.TextInput(attrs={'id': 'contactForm', 'class': 'form-control', 'placeholder': 'Contact Number'}),
-            'vendor_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Vendor Name'}),
-            'vendor_company': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Vendor Company'}),
-            'rate': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Rate'}),
+            'client_name': forms.TextInput(attrs={'class': 'form-control',
+                                                  'placeholder': 'Client Name'}),
+            'contact_number': forms.TextInput(attrs={'id': 'contactForm',
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Contact Number'}),
+            'vendor_name': forms.TextInput(attrs={'class': 'form-control',
+                                                  'placeholder': 'Vendor Name'}),
+            'vendor_company': forms.TextInput(attrs={'class': 'form-control',
+                                                     'placeholder': 'Vendor Company'}),
+            'rate': forms.NumberInput(attrs={'class': 'form-control',
+                                             'placeholder': 'Rate'}),
             'currency': forms.Select(
-                choices=MyTable.currency_choices, 
+                choices=MyTable.currency_choices,
                 attrs={'class': 'form-control', 'placeholder': 'Currency'}
-                ),
-            'contract_type': forms.Select(choices=MyTable.contract_choices, attrs={'class': 'form-control', 'placeholder': 'Contract Type'}),
-            'status': forms.Select(choices=MyTable.status_choices, attrs={'class': 'form-control', 'placeholder': 'Status'}),
-            'comments': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Comments'}),
+            ),
+            'contract_type': forms.Select(choices=MyTable.contract_choices, 
+                                          attrs={'class': 'form-control', 
+                                                 'placeholder': 'Contract Type'}),
+            'status': forms.Select(choices=MyTable.status_choices, 
+                                   attrs={'class': 'form-control', 
+                                          'placeholder': 'Status'}),
+            'comments': forms.TextInput(attrs={'class': 'form-control', 
+                                               'placeholder': 'Comments'}),
         }

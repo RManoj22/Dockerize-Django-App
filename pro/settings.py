@@ -82,8 +82,8 @@ DATABASES = {
 }
 
 
-# `SESSION_COOKIE_AGE = 300` sets the age of the session cookie in seconds. 
-# In this case, the session cookie will expire after 
+# `SESSION_COOKIE_AGE = 300` sets the age of the session cookie in seconds.
+# In this case, the session cookie will expire after
 # 300 seconds (5 minutes) of inactivity.
 SESSION_COOKIE_AGE = 300
 

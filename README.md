@@ -62,6 +62,8 @@ Integrate with external tools and services to streamline your workflow. GitHub A
 2. Click on the **Actions** tab.
 3. Choose a workflow template or create a new workflow file that includes the necessary actions.
 
+Learn more about [Browsing Marketplace for Actions](https://docs.github.com/en/actions/learn-github-actions/finding-and-customizing-actions#browsing-marketplace-actions-in-the-workflow-editor)
+
 ## Version Control and Branch Management
 
 Enforce versioning strategies and branch control for a more organized development process. GitHub Actions can enforce workflows that require specific checks to pass before merging code into protected branches, promoting collaboration and maintaining code quality. To enforce version control and branch management:

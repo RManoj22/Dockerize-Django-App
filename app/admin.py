@@ -1,5 +1,8 @@
+"""
+This module contains the Django admin configuration for the MyTable model.
+"""
+
 from django.contrib import admin
 from .models import MyTable
-# Register your models here.
 
 admin.site.register(MyTable)

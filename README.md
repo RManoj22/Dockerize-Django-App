@@ -62,6 +62,8 @@ Integrate with external tools and services to streamline your workflow. GitHub A
 2. Click on the **Actions** tab.
 3. Choose a workflow template or create a new workflow file that includes the necessary actions.
 
+![image](https://github.com/RManoj22/Dockerize-Django-App/assets/117622458/ebd67019-51c3-4e91-8f00-22eb574bd7ba)
+
 Learn more about [Browsing Marketplace for Actions](https://docs.github.com/en/actions/learn-github-actions/finding-and-customizing-actions#browsing-marketplace-actions-in-the-workflow-editor)
 
 ## Version Control and Branch Management

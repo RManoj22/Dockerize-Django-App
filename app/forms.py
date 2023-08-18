@@ -5,7 +5,7 @@ This module is used to define forms for the app.
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import MyTable
+from app.models import MyTable
 
 
 class LoginForm(forms.Form):
@@ -61,10 +61,10 @@ class MyTableForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Currency'}
             ),
             'contract_type': forms.Select(choices=MyTable.contract_choices, 
-                                          attrs={'class': 'form-control', 
+                                          attrs={'class': 'form-control',
                                                  'placeholder': 'Contract Type'}),
             'status': forms.Select(choices=MyTable.status_choices, 
-                                   attrs={'class': 'form-control', 
+                                   attrs={'class': 'form-control',
                                           'placeholder': 'Status'}),
             'comments': forms.TextInput(attrs={'class': 'form-control', 
                                                'placeholder': 'Comments'}),

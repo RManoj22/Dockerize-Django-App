@@ -12,9 +12,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
-from .forms import MyTableForm, SignUpForm, LoginForm
-from .models import MyTable
-from .filters import FormFilter
+from app.forms import MyTableForm, SignUpForm, LoginForm
+from app.models import MyTable
+from app.filters import FormFilter
 
 def signup(request):
     """
@@ -136,8 +136,8 @@ def details(request):
         filtered = FormFilter(request.GET, queryset=all_details)
         filtered_details = filtered.qs
         return render(request, 'details.html', {'details': details, 'filter': filtered_details})
-    except Exception as e:
-        return HttpResponseServerError(f"An error occurred: {str(e)}")
+    except Exception as error:
+        return HttpResponseServerError(f"An error occurred: {str(error)}")
 
 
 @login_required(login_url='signin')
@@ -165,13 +165,13 @@ def addnew(request):
                 new_entry.user = request.user
                 new_entry.save()
                 return redirect('details')
-        except Exception as e:
-            return HttpResponseServerError(f"An error occurred: {str(e)}")
+        except Exception as error:
+            return HttpResponseServerError(f"An error occurred: {str(error)}")
     return render(request, 'form.html', {'form': form})
 
 
 @login_required(login_url='signin')
-def edit(request, id):
+def edit(request, req_id):
     """
     The `edit` function handles the editing of a record in 
     the `MyTable` model, checking permissions and
@@ -189,7 +189,7 @@ def edit(request, id):
     based on certain conditions.
     """
     try:
-        edit_detail = MyTable.objects.get(id=id)
+        edit_detail = MyTable.objects.get(id=req_id)
         if not (edit_detail.user == request.user or request.user.is_superuser):
             return HttpResponseForbidden("You don't have permission to edit this record.")
 
@@ -206,12 +206,12 @@ def edit(request, id):
                                              'form': form})
     except MyTable.DoesNotExist:
         return HttpResponseServerError("Record not found.")
-    except Exception as e:
-        return HttpResponseServerError(f"An error occurred: {str(e)}")
+    except Exception as error:
+        return HttpResponseServerError(f"An error occurred: {str(error)}")
 
 
 @login_required(login_url='signin')
-def delete(request, id):
+def delete(request, req_id):
     """
     The function deletes a record from a table if the user 
     has the necessary permissions, otherwise it
@@ -234,7 +234,7 @@ def delete(request, id):
     that an error occurred, along with the error message.
     """
     try:
-        detail = MyTable.objects.get(id=id)
+        detail = MyTable.objects.get(id=req_id)
         if not (detail.user == request.user or request.user.is_superuser):
             return HttpResponseForbidden("You don't have permission to delete this record.")
 
@@ -242,8 +242,8 @@ def delete(request, id):
         return redirect('details')
     except MyTable.DoesNotExist:
         return HttpResponseServerError("Record not found.")
-    except Exception as e:
-        return HttpResponseServerError(f"An error occurred: {str(e)}")
+    except Exception as error:
+        return HttpResponseServerError(f"An error occurred: {str(error)}")
 
 
 def export_excel(request):
@@ -261,24 +261,24 @@ def export_excel(request):
     response['Content-Disposition'] = 'attachment; filename=Data_' + \
         str(datetime.datetime.now()) + '.xls'
 
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Data')
+    wbook = xlwt.Workbook(encoding='utf-8')
+    wsheet = wbook.add_sheet('Data')
     rownum = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
     if request.user.is_superuser:
-        columns = ['Client Name', 'Entry Date', 'Modified At', 
+        columns = ['Client Name', 'Entry Date', 'Modified At',
                    'Contact Number', 'Vendor Name','Vendor Company', 
                    'Rate', 'Currency', 'Contract Type', 'Status', 
                    'Comments', 'User']
 
         for col_num in range(len(columns)):
-            ws.write(rownum, col_num, columns[col_num], font_style)
+            wsheet.write(rownum, col_num, columns[col_num], font_style)
 
         font_style = xlwt.XFStyle()
 
-        rows = MyTable.objects.select_related('user').values_list('client_name', 
+        rows = MyTable.objects.select_related('user').values_list('client_name',
                                                                   'date', 
                                                                   'modified_at', 
                                                                   'contact_number',
@@ -295,18 +295,18 @@ def export_excel(request):
             rownum += 1
 
             for col_num in range(len(row)):
-                ws.write(rownum, col_num, str(row[col_num]), font_style)
+                wsheet.write(rownum, col_num, str(row[col_num]), font_style)
 
     else:
         columns = ['Client Name', 'Entry Date', 'Modified At', 'Contact Number', 'Vendor Name',
                    'Vendor Company', 'Rate', 'Currency', 'Contract Type', 'Status', 'Comments']
 
         for col_num in range(len(columns)):
-            ws.write(rownum, col_num, columns[col_num], font_style)
+            wsheet.write(rownum, col_num, columns[col_num], font_style)
 
         font_style = xlwt.XFStyle()
 
-        rows = MyTable.objects.filter(user=request.user).values_list('client_name', 
+        rows = MyTable.objects.filter(user=request.user).values_list('client_name',
                                                                      'date', 
                                                                      'modified_at', 
                                                                      'contact_number',
@@ -322,8 +322,8 @@ def export_excel(request):
             rownum += 1
 
             for col_num in range(len(row)):
-                ws.write(rownum, col_num, str(row[col_num]), font_style)
+                wsheet.write(rownum, col_num, str(row[col_num]), font_style)
 
-    wb.save(response)
+    wbook.save(response)
 
     return response

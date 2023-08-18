@@ -3,10 +3,9 @@ name: Create and publish a Docker Package
 
 # Trigger the workflow when the CodeQL workflow completes
 on:
-  workflow_run:
-    workflows: ["CodeQL"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 # Define environment variables
 env:

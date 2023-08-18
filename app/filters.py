@@ -8,7 +8,7 @@ from app.models import MyTable
 
 class FormFilter(django_filters.FilterSet):
     """
-    The `FormFilter` class is a Django filter class that 
+    The `FormFilter` class is a Django filter class that
     filters instances of the `MyTable` model based
     on the `status`, `currency`, and `user` fields.
     """
